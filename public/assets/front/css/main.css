@@ -1,0 +1,258 @@
+body {
+	min-width: 320px;
+	background-color: #f0f4f8;
+	color: #2c3e50;
+	font-family: 'Arial', sans-serif;
+	line-height: 1.6;
+	margin: 0;
+	padding: 0;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #ffffff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+.product-cards {
+	display: flex;
+	flex-wrap: wrap;
+	/* justify-content: space-between; */
+}
+
+.row {
+	display: contents;
+}
+.my-carousel {
+	padding: 0;
+}
+
+
+.my-carousel .carousel-item {
+	max-height: 900px;
+
+}
+
+
+.my-carousel .carousel-item img {
+	object-fit: cover;
+
+}
+
+.product-card {
+	background-color: #fff;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	padding: 15px;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+}
+
+.product-card:hover {
+	box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+	transform: translateY(-5px);
+}
+
+.card-thumb {
+	height: 120px;
+	text-align: center;
+}
+
+.card-thumb img {
+	max-height: 130px;
+	object-fit: contain;
+	margin: auto;
+}
+
+.card-caption {
+	margin-top: 20px;
+}
+
+.card-title {
+	height: 55px;
+	overflow: hidden;
+}
+
+.card-title a {
+	display: block;
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+}
+.cart-table img {
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    margin: auto;
+}
+
+.card-title a:hover {
+	color: #007bff;
+}
+
+.cart-price {
+	font-size: 16px;
+	margin-top: 15px;
+	color: #2a2423;
+}
+
+.cart-price del {
+	color: #bd2525;
+	margin-right: 5px;
+}
+
+button.cart-addtocart {
+	background-color: #28a745;
+	color: #fff;
+	border: none;
+	transition: background-color 0.3s ease;
+}
+
+button.cart-addtocart:hover {
+	background-color: #218838;
+}
+
+button.cart-btn {
+    background-color: #ff7f50; 
+    border-color: #ff7f50; 
+}
+
+button.cart-btn:hover {
+    background-color: #e25a1b;
+    border-color: #b96648;
+}
+
+button.cart-btn .badge {
+    background-color: #fff; 
+    color: #ff7f50; 
+    margin-left: 8px; 
+}
+
+button.cart-btn.btn-primary {
+    background-color: transparent;
+    border: none;
+}
+
+.navbar {
+	display: flex;
+	justify-content: center;
+}
+
+.navbar .container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar-logo {
+	max-height: 50px;
+	width: auto;
+}
+
+.mb-4 {
+	margin-bottom: 1.5rem;
+}
+
+
+
+.cart-modal img {
+	max-height: 50px;
+}
+
+.product-item-thumb {
+	padding: 20px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+}
+
+.product-item-thumb img {
+	max-height: 500px;
+}
+
+
+
+@media only screen and (max-width: 734px) {
+    .product-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-card {
+        width: 90%;
+    }
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1; 
+    transition: opacity 1s ease-in-out; 
+}
+
+.loader {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite; 
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.pagination {
+display: flex;
+justify-content: center;
+list-style: none;
+padding: 0;
+}
+        
+.pagination .page-item {
+margin: 0 5px;
+}
+        
+.pagination .page-item a {
+display: block;
+padding: 8px 16px;
+background-color: #f0f4f8;
+color: #2c3e50;
+border: 1px solid #ddd;
+border-radius: 4px;
+text-decoration: none;
+transition: all 0.3s ease;
+}
+        
+.pagination .page-item a:hover {
+background-color: #e25a1b;
+color: #fff;
+}
+        
+.pagination .page-item.active .page-link {
+background-color: #e25a1b;
+color: #fff;
+border-color: #b96648;
+}
+
+.pagination .page-item.disabled .page-link {
+color: #ddd;
+}
