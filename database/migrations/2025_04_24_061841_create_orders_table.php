@@ -13,15 +13,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('qty')->unsigned();
-            $table->double('total');
-            $table->tinyInteger('status')->unsigned()->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('name');
             $table->string('email');
-            $table->string('phone');
-            $table->string('address');
-            $table->text('note')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->text('products');
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->timestamp('order_date')->useCurrent();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

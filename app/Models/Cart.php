@@ -1,54 +1,94 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Cart extends Model
+class Cart
 {
-    use HasFactory;
-
-    public function addToCart($product, $qty)
+    public function addToCart(Product $product, int $qty)
     {
-        if (session()->has("cart. {$product->id}")) {
-            session(["cart.{$product->id}.qty" => session("cart.{$product->id}.qty") + $qty]);
-        } else {
-            session(["cart.{$product->id}" => [
-            'product_id'=>$product->id,
-            'title'=> $product->title,
-            'slug'=> $product->slug,
-            'price'=> $product->price,
-            'img'=> $product->getImage(),
-            'qty'=> $qty,
-           ]]);
+        $cart = session('cart', []);
+
+        // Проверяем, есть ли товар в корзине
+        $existingItemIndex = null;
+        foreach ($cart as $index => $item) {
+            if ($item['product_id'] == $product->id) {
+                $existingItemIndex = $index;
+                break;
+            }
         }
 
-        if (session()->has('cart_qty')){
-            session(['cart_qty'=> session('cart_qty') + $qty]);
+        if ($existingItemIndex !== null) {
+            // Увеличиваем количество
+            $cart[$existingItemIndex]['qty'] += $qty;
         } else {
-            session(['cart_qty'=> $qty]); 
+            // Добавляем новый товар
+            $cart[] = [
+                'product_id' => $product->id,
+                'title' => $product->title,
+                'img' => $product->getImage(),
+                'price' => $product->price,
+                'qty' => $qty,
+                'slug' => $product->slug,
+            ];
         }
-        if (session()->has('cart_total')){
-            session(['cart_total'=> session('cart_total') + $qty * $product->price]);
 
-        } else {
-            session(['cart_total'=> $qty * $product->price]);
-        }
+        // Обновляем сессию
+        session(['cart' => $cart]);
+
+        // Обновляем общее количество и сумму
+        $this->updateCartTotals();
     }
 
-    public function delItem($product_id){
-        if (!session()->has("cart.{$product_id}")) {
-            return false;
+    public function delItem($product_id)
+    {
+        $cart = session('cart', []);
+        $updated = false;
+
+        // Ищем товар в корзине
+        foreach ($cart as $index => $item) {
+            if ($item['product_id'] == $product_id) {
+                if ($item['qty'] > 1) {
+                    // Уменьшаем количество на 1
+                    $cart[$index]['qty'] -= 1;
+                    $updated = true;
+                } else {
+                    // Удаляем товар, если qty == 1
+                    unset($cart[$index]);
+                    $updated = true;
+                }
+                break;
+            }
         }
 
-        $qty_minus = session("cart.{$product_id}.qty");
-        $sum_minus = $qty_minus * session("cart.{$product_id}.price");
+        // Переиндексируем массив
+        $cart = array_values($cart);
 
-        session(['cart_qty' => session('cart_qty') - $qty_minus]);
-        session(['cart_total' => session('cart_total') - $sum_minus]);
-        session()->forget("cart.{$product_id}");
+        if (!$updated) {
+            return false; // Товар не найден
+        }
+
+        // Обновляем сессию
+        session(['cart' => $cart]);
+
+        // Обновляем общее количество и сумму
+        $this->updateCartTotals();
+
         return true;
+    }
 
+    protected function updateCartTotals()
+    {
+        $cart = session('cart', []);
+        $totalQty = 0;
+        $totalPrice = 0;
+
+        foreach ($cart as $item) {
+            $totalQty += $item['qty'];
+            $totalPrice += $item['price'] * $item['qty'];
+        }
+
+        session([
+            'cart_qty' => $totalQty,
+            'cart_total' => $totalPrice,
+        ]);
     }
 }

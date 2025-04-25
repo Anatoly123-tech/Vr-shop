@@ -1,44 +1,92 @@
-@if (!empty(session('cart')))
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Изображение</th>
+            <th>Название</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (empty(session('cart')))
             <tr>
-                <th scope="col">Фото</th>
-                <th scope="col">Наименование</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Кол-во</th>
-                <th><i class="fa fa-times"></i></th>
+                <td colspan="5" class="text-center">Корзина пуста</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach(session('cart') as $item)
-            <tr>
-                <td>
-                    <a href="{{ route('products.show', ['slug' => $item['slug']]) }}">
-                        <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}">
-                    </a>
-                </td>
-                <td><a href="{{ route('products.show', ['slug' => $item['slug']]) }}">{{ $item['title'] }}</a></td>
-                <td>@price_format($item['price']) руб.</td>
-                <td>{{ $item['qty'] }}</td>
-                <td>
-                    <span class="text-danger del-item" data-action="{{ route('cart.del_item', ['product_id' => $item['product_id']]) }}">
-                        <i class="fa fa-times"></i>
-                    </span>
-                </td>
-            </tr>
+        @else
+            @foreach (session('cart') as $item)
+                <tr>
+                    <td>
+                        <img src="{{ $item['img'] ?? asset('assets/front/img/no-image.png') }}" alt="{{ $item['title'] }}" class="img-fluid" style="max-width: 50px;" onerror="console.log('Image failed to load: {{ $item['img'] }}');">
+                    </td>
+                    <td>{{ $item['title'] }}</td>
+                    <td>{{ number_format($item['price']) }} руб.</td>
+                    <td>{{ $item['qty'] }}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm del-item" data-action="{{ route('cart.del_item', $item['product_id']) }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
             @endforeach
-            <tr>
-                <td  colspan="4" align="right">Итого:</td>
-                <td id="modal-cart-qty">{{ session('cart_qty') }}</td>
-            </tr>
-            <tr>
-                <td  colspan="4" align="right">На сумму:</td>
-                <td id="modal-cart-qty">@price_format(session('cart_total')) руб.</td>
-            </tr>
-        </tbody>
-    </table>
+        @endif
+    </tbody>
+</table>
+<div class="text-end">
+    <strong>Итого: <span id="modal-cart-qty">{{ session('cart_qty', 0) }}</span> шт., {{ number_format(session('cart_total', 0)) }} руб.</strong>
 </div>
-@else
-<h4>Корзина пустая</h4>
+@if (!empty(session('cart')))
+    <script>
+        console.log('Showing btn-cart');
+        document.querySelector('.btn-cart').classList.remove('d-none');
+    </script>
 @endif
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.del-item').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+                const action = this.getAttribute('data-action');
+                console.log('Sending GET request to:', action);
+                fetch(action, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    },
+                })
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response data:', data);
+                    if (data.success) {
+
+                        const modalContent = document.querySelector('.modal-content');
+                        if (modalContent) {
+                            modalContent.innerHTML = data.html;
+                        }
+
+                        const cartQtyElement = document.querySelector('#cart-qty');
+                        if (cartQtyElement) {
+                            cartQtyElement.textContent = data.cart_qty;
+                        }
+
+                        if (data.cart_qty === 0) {
+                            document.querySelector('.btn-cart').classList.add('d-none');
+                        }
+                    } else {
+                        alert(data.message || 'Ошибка при удалении товара');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    alert('Ошибка при удалении товара: ' + error.message);
+                });
+            });
+        });
+    });
+</script>

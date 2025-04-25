@@ -7,10 +7,25 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $category = Category::query()->where('slug', $slug)->firstOrFail();
-        $products = $category->products()->paginate(12);
-        return view('categories.show', compact('category','products'));
-    } 
+        $query = $category->products()->with(['category', 'status']);
+
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->input('min_price'));
+        }
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+
+        $products = $query->orderBy('id', 'desc')->paginate(12);
+
+        return view('categories.show', compact('category', 'products') + [
+            'filters' => $request->only(['title', 'min_price', 'max_price'])
+        ]);
+    }
 }

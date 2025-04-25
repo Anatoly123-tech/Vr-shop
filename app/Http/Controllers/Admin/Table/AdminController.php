@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Table;
 
+use App\Models\Status;
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -13,14 +15,18 @@ class AdminController extends Controller
 
     public function index()
     {
+        $categories = Category::all();
+        $statuses = Status::all();
         $products = Product::orderBy('created_at', 'desc')->paginate(perPage: 12);
-        return view('admin.table.index', compact('products'));
+        return view('admin.table.index', compact('products', 'categories', 'statuses'));
     }
 
 
     public function create()
     {
-        return view('admin.table.create');
+        $categories = Category::all();
+        $statuses = Status::all();
+        return view('admin.table.create', compact('categories', 'statuses'));
     }
 
     public function store(Request $request)
@@ -28,10 +34,10 @@ class AdminController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'category_id' => 'required|integer',
-            'status_id' => 'required|integer',
-            'price' => 'required|numeric',
-            'old_price' => 'nullable|numeric',
+            'category_id' => 'required|integer|exists:categories,id',
+            'status_id' => 'required|integer|exists:statuses,id',
+            'price' => 'required|numeric|min:0',
+            'old_price' => 'nullable|numeric|min:0',
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -56,7 +62,6 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required|integer',
             'status_id' => 'required|integer',

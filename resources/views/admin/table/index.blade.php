@@ -1,6 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
+<h1>Таблица товаров</h1>
     <div class="mb-3">
         <a href="{{ route('admin.table.create') }}" class="btn btn-success">Добавить товар</a>
         <button class="btn btn-danger" id="deleteSelected">Удалить выбранные</button>
@@ -19,8 +20,7 @@
                 </th>
                 <th scope="col">#</th>
                 <th scope="col">Название</th>
-                <th scope="col">Слаг</th>
-                <th scope="col" class="col-2">Content</th>
+                <th scope="col" class="col-2">Описание</th>
                 <th scope="col">Категории</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Фото</th>
@@ -44,20 +44,32 @@
                             <input type="text" class="form-control" name="title"
                                 value="{{ old('title', $product->title) }}">
                         </td>
-                        <td>
-                            <input type="text" class="form-control" name="slug"
-                                value="{{ old('slug', $product->slug) }}">
-                        </td>
+
                         <td>
                             <textarea class="form-control" name="content" rows="5">{{ old('content', $product->content) }}</textarea>
                         </td>
                         <td>
-                            <input type="number" class="form-control" name="category_id"
-                                value="{{ old('category_id', $product->category_id) }}">
+                            <select class="form-control" name="category_id" required>
+                                <option value="">Выберите категорию</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </td>
                         <td>
-                            <input type="number" class="form-control" name="status_id"
-                                value="{{ old('status_id', $product->status_id) }}">
+                            <select class="form-control" name="status_id" required>
+                                <option value="">Выберите статус</option>
+                                @foreach($statuses as $status)
+                                    <option value="{{ $status->id }}" {{ old('status_id', $product->status_id) == $status->id ? 'selected' : '' }}>
+                                        {{ $status->title }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
                         <td>
                             @if ($product->img)

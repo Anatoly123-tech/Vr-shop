@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\Table\AdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -28,7 +29,7 @@ Route::get('/category/{slug}', [\App\Http\Controllers\CategoryController::class,
 Route::get('/product/{slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/show', [\App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
-Route::get('/cart/del-item/{product_id}', [\App\Http\Controllers\CartController::class, 'delItem'])->name('cart.del_item');
+Route::get('cart/del-item/{product_id}', [CartController::class, 'delItem'])->name('cart.del_item');
 Route::match(['get', 'post'], '/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout');
 Route::get('/about', function () {
     return view('about');
@@ -50,6 +51,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('create', [AdminController::class, 'create'])->name('admin.table.create');
         Route::post('store', [AdminController::class, 'store'])->name('admin.table.store');
         Route::post('delete', [AdminController::class, 'delete'])->name('admin.table.delete');
+        Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+        Route::patch('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
+        Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
     });
 });
 
@@ -71,7 +75,9 @@ Route::middleware('auth')->group(function () {
 
         return back()->with('message', 'Verification link sent!');
     })->middleware('throttle:3.1')->name('verification.send');
-
+    Route::post('/order', [OrderController::class, 'store'])->name('order.store');
+    Route::get('orders/success', [OrderController::class, 'success'])->name('order.success');
+    Route::get('/user/orders', [OrderController::class, 'userOrders'])->name('user.orders');
     Route::get('logout', [App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 });
 
