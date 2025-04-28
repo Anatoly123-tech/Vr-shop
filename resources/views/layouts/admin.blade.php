@@ -45,19 +45,23 @@
                         <li class="nav-item"> <a href="{{ route('admin.table.index') }}" class="nav-link"> <i class="bi bi-bag-check"></i>
                                 <p>
                                     Таблица товаров
-
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item"> <a href="{{ route('admin.orders.index') }}" class="nav-link"> <i class="bi bi-archive"></i>
                                 <p>
                                     Заказы
-
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item"> <a href="{{ route('admin.table.message') }}" class="nav-link"> <i class="bi bi-chat-right-dots"></i>
+                            <p>
+                                Обратная связь
+                            </p>
+                        </a>
+                    </li>
 
-                    </ul> <!--end::Sidebar Menu-->
+                    </ul> 
                 </nav>
             </div> <!--end::Sidebar Wrapper-->
         </aside> <!--end::Sidebar--> <!--begin::App Main-->

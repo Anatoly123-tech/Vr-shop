@@ -7,6 +7,15 @@
         Оформление заказа
     @endsection
 
+    @section('breadcrumbs')
+    @include('partials.breadcrumbs', [
+        'items' => [
+            ['title' => 'Главная', 'url' => route('home')],
+            ['title' => 'Категории', 'url' => route('home')],
+            ['title' => 'Оформление заказа', 'url' => null]
+        ]
+    ])
+@endsection
     @section('content')
         <div class="col-md-12 cart-container">
             <h1>Оформление заказа</h1>

@@ -150,6 +150,10 @@ button.cart-btn.btn-primary {
     margin-right: 15px;
 }
 
+.navbar-nav.mx-auto .nav-item {
+    margin: 0 15px;
+}
+
 .navbar-nav .nav-item:last-child {
     margin-right: 0;
 }
@@ -164,6 +168,17 @@ button.cart-btn.btn-primary {
 .navbar-nav.ms-auto .nav-link:hover {
     background-color: #ff7f50;
     color: #fff;
+}
+
+.navbar-nav .nav-link {
+    color: #2c3e50;
+    padding: 8px 15px;
+    transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: manifeste
 }
 
 .mb-4 {
@@ -225,6 +240,10 @@ button.cart-btn.btn-primary {
     .navbar-nav .nav-item {
         margin-right: 0;
         margin-bottom: 10px;
+    }
+
+    .navbar-nav.mx-auto .nav-item {
+        margin: 10px 0;
     }
 
     .navbar-nav.ms-auto .nav-link {
@@ -437,9 +456,17 @@ button.cart-btn.btn-primary {
     margin-bottom: 15px;
 }
 
-.about-section p {
+.about-section p.lead {
     color: #6c757d;
     font-size: 1.1rem;
+}
+
+.about-section p.tagline {
+    color: rgba(0, 0, 0, 0.685);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 15px;
+    font-style: italic;
 }
 
 .advantages-section {
@@ -471,6 +498,90 @@ button.cart-btn.btn-primary {
 }
 
 .advantage-card p {
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.vr-news-section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.vr-news-section h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+#vrNewsCarousel .carousel-item {
+    padding: 20px;
+}
+
+#vrNewsCarousel .carousel-item .row {
+    margin: 0;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#vrNewsCarousel .news-card {
+    margin: 0 10px;
+    flex: 1;
+    min-width: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-height: 250px;
+}
+
+#vrNewsCarousel .news-card:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    background-color: #f8f9fa;
+}
+
+#vrNewsCarousel .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+
+#vrNewsCarousel .carousel-control-prev,
+#vrNewsCarousel .carousel-control-next {
+    width: 5%;
+    background: transparent;
+}
+
+#vrNewsCarousel .carousel-control-prev-icon,
+#vrNewsCarousel .carousel-control-next-icon {
+    background-color: #000;
+    border-radius: 4px;
+}
+
+.news-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.news-card-link:hover {
+    text-decoration: none;
+}
+
+.news-card i {
+    color: #007bff;
+}
+
+.news-card h5 {
+    color: #2c3e50;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.news-card p {
     color: #6c757d;
     font-size: 0.95rem;
 }
@@ -521,29 +632,156 @@ button.cart-btn.btn-primary {
     border-radius: 4px;
 }
 
+.breadcrumb {
+    background-color: #f0f4f8;
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.breadcrumb-item {
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #0056b3;
+}
+
+.breadcrumb-item.active {
+    color: #6c757d;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #6c757d;
+}
+
 @media only screen and (max-width: 991px) {
-    #newProductsCarousel .col-md-6 {
+    #newProductsCarousel .col-md-6,
+    #vrNewsCarousel .col-md-6 {
         flex: 0 0 50%;
         max-width: 50%;
     }
-    #newProductsCarousel .carousel-item .row {
+    #newProductsCarousel .carousel-item .row,
+    #vrNewsCarousel .carousel-item .row {
         flex-wrap: wrap;
     }
 }
 
 @media only screen and (max-width: 576px) {
-    #newProductsCarousel .col-sm-12 {
+    #newProductsCarousel .col-sm-12,
+    #vrNewsCarousel .col-sm-12 {
         flex: 0 0 100%;
         max-width: 100%;
     }
-    #newProductsCarousel .carousel-item .row {
-        flex-wrap: wrap;
+    #newProductsCarousel .carousel-item .row,
+    #vrNewsCarousel .carousel-item .row {
+        flex-wrap: nowrap;
+    }
+    #newProductsCarousel .col-lg-4,
+    #vrNewsCarousel .col-lg-4 {
+        display: none;
+    }
+    #newProductsCarousel .col-lg-4:first-child,
+    #vrNewsCarousel .col-lg-4:first-child {
+        display: block;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    #newProductsCarousel .product-card,
+    #vrNewsCarousel .news-card {
+        margin: 0 auto;
+        width: 100%;
     }
     .about-section h2,
-    .new-products-section h2 {
+    .new-products-section h2,
+    .vr-news-section h2 {
         font-size: 1.5rem;
     }
-    .advantage-card {
+    .about-section p.tagline {
+        font-size: 1rem;
+    }
+    .advantage-card,
+    .news-card {
         margin-bottom: 15px;
+    }
+}
+
+.contact-info, .contact-form, .contact-map {
+    background-color: #fff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.contact-info:hover, .contact-form:hover, .contact-map:hover {
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.contact-info h3, .contact-form h3, .contact-map h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.contact-info p, .contact-info li {
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.contact-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    color: #0056b3;
+}
+
+.social-links a {
+    color: #2c3e50;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: #007bff;
+}
+
+.contact-form .form-control {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+.contact-form .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.contact-form .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+@media only screen and (max-width: 576px) {
+    .contact-info h3, .contact-form h3, .contact-map h3 {
+        font-size: 1.3rem;
+    }
+    .contact-map iframe {
+        height: 300px;
     }
 }

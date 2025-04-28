@@ -8,8 +8,8 @@
     <div class="col-md-12">
         <h1>Заказ успешно оформлен!</h1>
         <div class="alert alert-success">
-            Спасибо за ваш заказ! Мы свяжемся с вами для подтверждения.
+            Спасибо за ваш заказ! Ожидайте заказ в пункте выдачи товаров!
         </div>
-        <a href="{{ route('home') }}" class="btn btn-primary">Вернуться на главную</a>
+        <a href="{{ route('home') }}" class="btn btn-success">Вернуться на главную</a>
     </div>
 @endsection

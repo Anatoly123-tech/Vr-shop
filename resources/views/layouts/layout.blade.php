@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Laravel Shop')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/front/img/logo.png') }}">
     <link rel="stylesheet" href="{{ asset('assets/front/css/main.css') }}?v={{ time() }}">
 </head>
 <body>
@@ -13,6 +15,7 @@
 
     <div class="wrapper mt-5">
         <div class="container">
+            @yield('breadcrumbs')
             @yield('content')
         </div>
     </div>
@@ -25,7 +28,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -54,8 +57,7 @@
                         <h5 class="text-uppercase">Информация</h5>
                         <ul class="list-unstyled">
                             <li><a class="text-body" href="{{ route('about') }}">О компании</a></li>
-                            <li><a class="text-body" href="{{ route('blog') }}">Блог</a></li>
-                            <li><a class="text-body" href="{{ route('contact') }}">Контакты</a></li>
+                            <li><a class="text-body" href="{{ route('pages.contact') }}">Контакты</a></li>
                         </ul>
                     </div>
                     <div class="me-4">

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -30,18 +31,6 @@ Route::get('/product/{slug}', [\App\Http\Controllers\ProductController::class, '
 Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/show', [\App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
 Route::get('cart/del-item/{product_id}', [CartController::class, 'delItem'])->name('cart.del_item');
-Route::match(['get', 'post'], '/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout');
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-Route::get('/blog', function () {
-    return view('blog');
-})->name('blog');
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
-
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::group(['namespace' => 'Table'], function () {
@@ -50,6 +39,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
         Route::get('create', [AdminController::class, 'create'])->name('admin.table.create');
         Route::post('store', [AdminController::class, 'store'])->name('admin.table.store');
+        Route::get('/admin/message', [AdminController::class, 'message'])->name('admin.table.message');
         Route::post('delete', [AdminController::class, 'delete'])->name('admin.table.delete');
         Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
         Route::patch('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
@@ -78,7 +68,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/order', [OrderController::class, 'store'])->name('order.store');
     Route::get('orders/success', [OrderController::class, 'success'])->name('order.success');
     Route::get('/user/orders', [OrderController::class, 'userOrders'])->name('user.orders');
-    Route::get('logout', [App\Http\Controllers\UserController::class, 'logout'])->name('logout');
+    Route::get('logout', [UserController::class, 'logout'])->name('logout');
+    Route::get('/contact', [PageController::class, 'contact'])->name('pages.contact');
+    Route::post('/contact', [PageController::class, 'contactSubmit'])->name('contact.submit');
 });
 
 
@@ -104,5 +96,9 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', 'admin.email'])->group(function () {
+    Route::match(['get', 'post'], '/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout');
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/about', function () {
+        return view('about');
+    })->name('about');
 });

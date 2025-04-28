@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Table;
 
 use App\Models\Status;
+use App\Models\Contact;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -103,5 +104,9 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.table.index')->with('error', 'Неверные данные!');
+    }
+    public function message() {
+        $contacts = Contact::all();
+        return view('admin.table.message', compact('contacts'));
     }
 }

@@ -1,15 +1,52 @@
 @extends('layouts.layout')
 
 @section('title') @parent {{ $category->title }} @endsection
+@section('breadcrumbs')
 
+        @include('partials.breadcrumbs', [
+            'items' => [
+                ['title' => 'Главная', 'url' => route('home')],
+                ['title' => 'Категории', 'url' => route('home')],
+                ['title' => $category->title, 'url' => null]
+            ]
+        ])
+@endsection
 @section('content')
 <div class="container">
-    <!-- Заголовок категории -->
+
     <h1 class="mb-4">{{ $category->title }}</h1>
 
-    <!-- Основной контент: фильтры и товары -->
+
     <div class="row">
-        <!-- Товары (9 колонок) -->
+        <div class="col-lg-3 order-lg-2">
+            <button class="btn btn-success d-lg-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+                <i class="bi bi-filter"></i>
+            </button>
+            <div class="filter-form collapse d-lg-block" id="filterCollapse">
+                <form method="GET" action="{{ route('categories.show', ['slug' => $category->slug]) }}">
+                    <div class="form-group mb-3 position-relative">
+                        <label for="title" class="form-label">Название</label>
+                        <input type="text" name="title" id="title" class="form-control ps-5"
+                               value="{{ $filters['title'] ?? '' }}" placeholder="Введите название товара">
+                        <i class="fas fa-search position-absolute filter-icon"></i>
+                    </div>
+                    <div class="form-group mb-3 position-relative">
+                        <label for="min_price" class="form-label">Мин. цена</label>
+                        <input type="number" name="min_price" id="min_price" class="form-control ps-5"
+                               value="{{ $filters['min_price'] ?? '' }}" placeholder="0" min="0">
+                        <i class="fas fa-ruble-sign position-absolute filter-icon"></i>
+                    </div>
+                    <div class="form-group mb-3 position-relative">
+                        <label for="max_price" class="form-label">Макс. цена</label>
+                        <input type="number" name="max_price" id="max_price" class="form-control ps-5"
+                               value="{{ $filters['max_price'] ?? '' }}" placeholder="100000" min="0">
+                        <i class="fas fa-ruble-sign position-absolute filter-icon"></i>
+                    </div>
+                    <button type="submit" class="btn btn-success">Применить</button>
+                    <a href="{{ route('categories.show', ['slug' => $category->slug]) }}" class="btn btn-secondary">Сбросить</a>
+                </form>
+            </div>
+        </div>
         <div class="col-lg-9 order-lg-1">
             <div class="product-cards mb-5">
                 <div class="row">
@@ -55,42 +92,14 @@
                 </div>
             </div>
 
-            <!-- Пагинация -->
+
             <nav aria-label="Page navigation example" class="pagination-centered">
                 {{ $products->appends($filters)->links('pagination.custom') }}
             </nav>
         </div>
 
-        <!-- Фильтры (3 колонки, справа) -->
-        <div class="col-lg-3 order-lg-2">
-            <button class="btn btn-primary d-lg-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
-                Показать фильтры
-            </button>
-            <div class="filter-form collapse d-lg-block" id="filterCollapse">
-                <form method="GET" action="{{ route('categories.show', ['slug' => $category->slug]) }}">
-                    <div class="form-group mb-3 position-relative">
-                        <label for="title" class="form-label">Название</label>
-                        <input type="text" name="title" id="title" class="form-control ps-5"
-                               value="{{ $filters['title'] ?? '' }}" placeholder="Введите название товара">
-                        <i class="fas fa-search position-absolute filter-icon"></i>
-                    </div>
-                    <div class="form-group mb-3 position-relative">
-                        <label for="min_price" class="form-label">Мин. цена</label>
-                        <input type="number" name="min_price" id="min_price" class="form-control ps-5"
-                               value="{{ $filters['min_price'] ?? '' }}" placeholder="0" min="0">
-                        <i class="fas fa-ruble-sign position-absolute filter-icon"></i>
-                    </div>
-                    <div class="form-group mb-3 position-relative">
-                        <label for="max_price" class="form-label">Макс. цена</label>
-                        <input type="number" name="max_price" id="max_price" class="form-control ps-5"
-                               value="{{ $filters['max_price'] ?? '' }}" placeholder="100000" min="0">
-                        <i class="fas fa-ruble-sign position-absolute filter-icon"></i>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Применить</button>
-                    <a href="{{ route('categories.show', ['slug' => $category->slug]) }}" class="btn btn-secondary">Сбросить</a>
-                </form>
-            </div>
-        </div>
+
+
     </div>
 </div>
 @endsection

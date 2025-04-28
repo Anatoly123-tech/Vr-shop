@@ -3,7 +3,8 @@
         <a class="navbar-brand" href="{{ route('home') }}">
             <img src="{{ asset('assets/front/img/logo.png') }}" alt="Vr-Shop" class="navbar-logo">
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -13,13 +14,15 @@
                     <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Главная</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         Категории
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                        @foreach($categories as $category)
+                        @foreach ($categories as $category)
                             <li>
-                                <a class="dropdown-item" href="{{ route('categories.show', ['slug' => $category->slug]) }}">
+                                <a class="dropdown-item"
+                                    href="{{ route('categories.show', ['slug' => $category->slug]) }}">
                                     {{ $category->title }}
                                 </a>
                             </li>
@@ -34,7 +37,10 @@
                     </button>
                 </li>
             </ul>
-
+            <ul class="navbar-nav mx-auto">
+                <li><a class="nav-link" href="{{ route('about') }}">О компании</a></li>
+                <li><a class="nav-link" href="{{ route('pages.contact') }}">Контакты</a></li>
+            </ul>
             <ul class="navbar-nav ms-auto">
                 @if (Route::has('login'))
                     @auth
@@ -44,7 +50,8 @@
                             </li>
                         @endif
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ auth()->user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
@@ -64,8 +71,8 @@
                             <a class="nav-link" href="{{ route('login') }}">Войти</a>
                         </li>
                     @endif
-                @endif
-            </ul>
+                    @endif
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>

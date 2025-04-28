@@ -1,7 +1,16 @@
 @extends('layouts.layout')
 
 @section('title') @parent  {{ $product->title }} @endsection
+@section('breadcrumbs')
 
+        @include('partials.breadcrumbs', [
+            'items' => [
+                ['title' => 'Главная', 'url' => route('home')],
+                ['title' => $product->category ? $product->category->title : 'Товары', 'url' => $product->category ? route('categories.show', ['slug' => $product->category->slug]) : route('home')],
+                ['title' => $product->title, 'url' => null]
+            ]
+        ])
+@endsection
 @section('content')
 
 <div class="col-md-12">
@@ -15,7 +24,7 @@
 <div class="col-sm-8">
     <ul class="list-unstyled">
         <li>Категория:
-            <a href="{{ route('categories.show', ['slug' => $product->category->slug]) }}">
+            <a href="{{ route('categories.show', ['slug' => $product->category->slug]) }}" style="text-decoration: none; color:black;">
                 {{ $product->category->title }}
             </a>
         </li>
@@ -46,7 +55,7 @@
             </div>
         </div>
     </form>
-    
+
     <div class="container mt-4">
     <div class="text-center mb-3">
         <ul class="nav nav-tabs justify-content-center" id="productTab" role="tablist">
