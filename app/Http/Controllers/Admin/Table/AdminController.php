@@ -109,4 +109,37 @@ class AdminController extends Controller
         $contacts = Contact::all();
         return view('admin.table.message', compact('contacts'));
     }
+
+    public function createCategory()
+    {
+        $categories = Category::all();
+        return view('admin.table.create_category', compact('categories'));
+    }
+    public function storeCategory(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255|unique:categories,title',
+        ]);
+
+        Category::create([
+            'title'=> $request->title,
+        ]);
+
+        return redirect()->route('admin.categories.create')->with('success', 'Категория успешно добавлена!');
+    }
+    public function deleteCategory($id)
+    {
+        $category = Category::findOrFail($id);
+
+
+        if ($category->products()->count() > 0) {
+            return redirect()->route('admin.categories.create')
+                ->with('error', 'Нельзя удалить категорию, так как она содержит товары.');
+        }
+
+        $category->delete();
+
+        return redirect()->route('admin.categories.create')
+            ->with('success', 'Категория успешно удалена!');
+    }
 }

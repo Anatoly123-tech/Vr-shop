@@ -59,6 +59,9 @@
                                     <a class="dropdown-item" href="{{ route('user.orders') }}">Заказы</a>
                                 </li>
                                 <li>
+                                    <a class="dropdown-item" href="{{ route('favorites.index') }}">Избранное</a>
+                                </li>
+                                <li>
                                     <a class="dropdown-item" href="{{ route('logout') }}">Выйти</a>
                                 </li>
                             </ul>

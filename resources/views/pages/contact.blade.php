@@ -1,16 +1,6 @@
 @extends('layouts.layout')
 
 @section('title') @parent Контакты @endsection
-
-@section('breadcrumbs')
-    @include('partials.breadcrumbs', [
-        'items' => [
-            ['title' => 'Главная', 'url' => route('home')],
-            ['title' => 'Контакты', 'url' => null]
-        ]
-    ])
-@endsection
-
 @section('content')
 <div class="container mt-5">
     <h1 class="text-center mb-4">Контакты</h1>

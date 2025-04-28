@@ -7,6 +7,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\Admin\Table\AdminController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
@@ -31,6 +32,10 @@ Route::get('/product/{slug}', [\App\Http\Controllers\ProductController::class, '
 Route::post('/cart/add', [\App\Http\Controllers\CartController::class, 'add'])->name('cart.add');
 Route::get('/cart/show', [\App\Http\Controllers\CartController::class, 'show'])->name('cart.show');
 Route::get('cart/del-item/{product_id}', [CartController::class, 'delItem'])->name('cart.del_item');
+Route::get('/contact', [PageController::class, 'contact'])->name('pages.contact');
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
 
     Route::group(['namespace' => 'Table'], function () {
@@ -44,6 +49,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
         Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
         Route::patch('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('admin.orders.updateStatus');
         Route::delete('/orders/{order}', [OrderController::class, 'destroy'])->name('admin.orders.destroy');
+        Route::get('/categories/create', [AdminController::class, 'createCategory'])->name('admin.categories.create');
+        Route::post('/categories/store', [AdminController::class, 'storeCategory'])->name('admin.categories.store');
+        Route::delete('/categories/{id}', [AdminController::class, 'deleteCategory'])->name('admin.categories.delete');
     });
 });
 
@@ -69,8 +77,9 @@ Route::middleware('auth')->group(function () {
     Route::get('orders/success', [OrderController::class, 'success'])->name('order.success');
     Route::get('/user/orders', [OrderController::class, 'userOrders'])->name('user.orders');
     Route::get('logout', [UserController::class, 'logout'])->name('logout');
-    Route::get('/contact', [PageController::class, 'contact'])->name('pages.contact');
     Route::post('/contact', [PageController::class, 'contactSubmit'])->name('contact.submit');
+    Route::post('/favorites/toggle/{product}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 });
 
 
@@ -98,7 +107,5 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth', 'admin.email'])->group(function () {
     Route::match(['get', 'post'], '/cart/checkout', [\App\Http\Controllers\CartController::class, 'checkout'])->name('cart.checkout');
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/about', function () {
-        return view('about');
-    })->name('about');
+
 });

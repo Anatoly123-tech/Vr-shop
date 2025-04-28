@@ -50,6 +50,10 @@ class Product extends Model
     {
         return $this->belongsTo(Status::class);
     }
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id')->withTimestamps();
+    }
 
 
     public function getImage()

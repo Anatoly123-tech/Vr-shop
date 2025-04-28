@@ -48,6 +48,12 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item"> <a href="{{ route('admin.categories.create') }}" class="nav-link"> <i class="bi bi-folder-plus"></i></i>
+                                <p>
+                                    Добавить категорию
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-item"> <a href="{{ route('admin.orders.index') }}" class="nav-link"> <i class="bi bi-archive"></i>
                                 <p>
                                     Заказы
@@ -61,7 +67,7 @@
                         </a>
                     </li>
 
-                    </ul> 
+                    </ul>
                 </nav>
             </div> <!--end::Sidebar Wrapper-->
         </aside> <!--end::Sidebar--> <!--begin::App Main-->
