@@ -1,6 +1,6 @@
 @extends('layouts.layout')
 
-@section('title') @parent {{ $title }} @endsection
+@section('title') Главная страница @endsection
 
 @section('content')
 <div class="container">

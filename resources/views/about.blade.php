@@ -1,14 +1,14 @@
 @extends('layouts.layout')
-
+@section('title') О компании @endsection
 @section('content')
 <div class="container mt-5 mb-5">
-    <!-- Header Section -->
+
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-dark">О компании VR-Shop</h1>
         <p class="lead text-muted">Добро пожаловать в VR-Shop, ведущий интернет-магазин, специализирующийся на продаже виртуальных реальностей и аксессуаров для них.</p>
     </div>
 
-    <!-- Mission Section -->
+
     <div class="row justify-content-center mb-5">
         <div class="col-lg-8">
             <div class="card shadow-sm border-0 rounded-3">
@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <!-- Offerings Section -->
+
     <div class="row justify-content-center mb-5">
         <div class="col-lg-8">
             <div class="card shadow-sm border-0 rounded-3">
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Values Section -->
+
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card shadow-sm border-0 rounded-3">
@@ -51,7 +51,7 @@
 </div>
 
 <style>
-    /* Custom styles for enhanced appearance */
+
     .card {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
