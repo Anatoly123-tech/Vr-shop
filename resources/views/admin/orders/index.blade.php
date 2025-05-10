@@ -2,15 +2,18 @@
 
 @section('content')
     <style>
-        .action-buttons .btn + .btn {
-            margin-left: 15px; /* Горизонтальный отступ между кнопками */
+        .action-buttons .btn+.btn {
+            margin-left: 15px;
+            /* Горизонтальный отступ между кнопками */
 
         }
+
         .status-select {
-            min-width: 200px; /* Минимальная ширина select */
-            margin-bottom: 10px; /* Вертикальный отступ снизу для select */
+            min-width: 200px;
+            /* Минимальная ширина select */
+            margin-bottom: 10px;
+            /* Вертикальный отступ снизу для select */
         }
-
     </style>
     <h1>Список заказов</h1>
     <div class="container-fluid">
@@ -26,10 +29,15 @@
                         @if ($orders && $orders->count() > 0)
                             @php
                                 // Объявляем функцию один раз перед циклом
-                                function decodeUnicode($str) {
-                                    return preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-                                        return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
-                                    }, $str);
+                                function decodeUnicode($str)
+                                {
+                                    return preg_replace_callback(
+                                        '/\\\\u([0-9a-fA-F]{4})/',
+                                        function ($match) {
+                                            return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+                                        },
+                                        $str,
+                                    );
                                 }
                             @endphp
                             <table class="table table-bordered table-hover">
@@ -41,6 +49,7 @@
                                         <th>Телефон</th>
                                         <th>Адрес</th>
                                         <th>Продукты</th>
+                                        <th>Количество</th>
                                         <th>Сумма</th>
                                         <th>Дата</th>
                                         <th>Статус</th>
@@ -60,14 +69,19 @@
                                                     $products = json_decode($order->products, true);
                                                 @endphp
                                                 @if (is_array($products) && !empty($products))
-                                                    <ul>
-                                                        @foreach ($products as $product_id => $product)
-                                                            {{ decodeUnicode($product['title']) }},
-                                                        @endforeach
-                                                    </ul>
+                                                    @foreach ($products as $product_id => $product)
+                                                        <li> {{ decodeUnicode($product['title']) }}</li>
+                                                    @endforeach
                                                 @else
                                                     <p>Нет данных</p>
                                                 @endif
+                                            </td>
+                                            <td>
+                                                <ul class="list-unstyled">
+                                                    @foreach ($products as $product)
+                                                        <li>• {{ $product['qty'] }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </td>
                                             <td>{{ number_format($order->total_price) }} руб.</td>
                                             <td>
@@ -80,28 +94,39 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <span class="badge {{ $order->status == 'pending' ? 'bg-warning' : ($order->status == 'approved' ? 'bg-success' : 'bg-danger') }}">
+                                                <span
+                                                    class="badge {{ $order->status == 'pending' ? 'bg-warning' : ($order->status == 'approved' ? 'bg-success' : 'bg-danger') }}">
                                                     {{ $order->status == 'pending' ? 'Ожидание' : ($order->status == 'approved' ? 'Одобрен' : 'Отказано') }}
                                                 </span>
                                             </td>
                                             <td>
                                                 <div class="action-buttons">
-                                                    <form action="{{ route('admin.orders.updateStatus', $order) }}" method="POST" style="display:inline;">
+                                                    <form action="{{ route('admin.orders.updateStatus', $order) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('PATCH')
                                                         <div class="input-group">
                                                             <select name="status" class="form-control status-select w-100">
-                                                                <option value="pending" {{ $order->status == 'pending' ? 'selected' : '' }}>Ожидание</option>
-                                                                <option value="approved" {{ $order->status == 'approved' ? 'selected' : '' }}>Одобрен</option>
-                                                                <option value="rejected" {{ $order->status == 'rejected' ? 'selected' : '' }}>Отказано</option>
+                                                                <option value="pending"
+                                                                    {{ $order->status == 'pending' ? 'selected' : '' }}>
+                                                                    Ожидание</option>
+                                                                <option value="approved"
+                                                                    {{ $order->status == 'approved' ? 'selected' : '' }}>
+                                                                    Одобрен</option>
+                                                                <option value="rejected"
+                                                                    {{ $order->status == 'rejected' ? 'selected' : '' }}>
+                                                                    Отказано</option>
                                                             </select>
-                                                            <button type="submit" class="btn btn-success btn-sm" style="margin-bottom: 10px;">Подтвердить</button>
+                                                            <button type="submit" class="btn btn-success btn-sm"
+                                                                style="margin-bottom: 10px;">Подтвердить</button>
                                                         </div>
                                                     </form>
-                                                    <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" style="display:inline;">
+                                                    <form action="{{ route('admin.orders.destroy', $order) }}"
+                                                        method="POST" style="display:inline;">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Удалить весь заказ?')">
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Удалить весь заказ?')">
                                                             <i class="fas fa-trash-alt"></i> Удалить
                                                         </button>
                                                     </form>

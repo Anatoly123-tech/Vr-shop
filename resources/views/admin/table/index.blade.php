@@ -74,7 +74,7 @@
                         <td>
                             @if ($product->img)
                                 <img src="{{ asset('assets/front/img/' . $product->img) }}"
-                                    style="width: 100px; height: auto;">
+                                    style="width: 100px; height: auto;" >
                             @else
                                 <p>Изображение не установлено.</p>
                             @endif

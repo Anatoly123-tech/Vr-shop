@@ -29,7 +29,7 @@ class OrderController extends Controller
 
         $productsArray = array_values($products);
 
-        $order = Order::create([
+        Order::create([
             'user_id' => Auth::id(),
             'name' => $validated['name'],
             'email' => $validated['email'],

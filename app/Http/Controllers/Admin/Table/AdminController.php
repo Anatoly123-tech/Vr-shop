@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'category_id' => 'required|integer|exists:categories,id',
@@ -54,11 +54,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.table.index')->with('success', 'Товар успешно добавлен!');
     }
-
-
-
-
-
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -89,11 +84,6 @@ class AdminController extends Controller
 
         return redirect()->route('admin.table.index')->with('success', 'Товар успешно обновлен!');
     }
-
-
-
-
-
     public function delete(Request $request)
     {
         $ids = json_decode($request->input('ids'));
@@ -105,7 +95,8 @@ class AdminController extends Controller
 
         return redirect()->route('admin.table.index')->with('error', 'Неверные данные!');
     }
-    public function message() {
+    public function message()
+    {
         $contacts = Contact::all();
         return view('admin.table.message', compact('contacts'));
     }
@@ -122,7 +113,7 @@ class AdminController extends Controller
         ]);
 
         Category::create([
-            'title'=> $request->title,
+            'title' => $request->title,
         ]);
 
         return redirect()->route('admin.categories.create')->with('success', 'Категория успешно добавлена!');

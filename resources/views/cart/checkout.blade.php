@@ -67,7 +67,7 @@
                     </div>
                     <input type="hidden" name="products" value="{{ json_encode(session('cart'), JSON_UNESCAPED_UNICODE) }}">
                     <input type="hidden" name="total_price" value="{{ session('cart_total', 0) }}">
-                    <button type="submit" class="btn btn-primary">Оформить заказ</button>
+                    <button type="submit" class="btn btn-success">Оформить заказ</button>
                 </form>
             @endif
         </div>

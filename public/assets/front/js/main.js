@@ -16,19 +16,15 @@ function showCart(data) {
         alert('Ошибка при отображении корзины: ' + error.message);
     }
 }
-
 function updateCheckout(data) {
     console.log('updateCheckout called with data:', data);
     try {
-        // Используем точный селектор для контейнера корзины
         const cartContainer = $('.cart-container');
         const cartTable = $('.cart-table');
-        // Создаём временный контейнер для фильтрации HTML
         const tempContainer = $('<div>').html(data.cart_table);
-        // Проверяем, содержит ли cart_table полный HTML
         const isFullHtml = tempContainer.find('html, head, body').length > 0;
         console.log('Is full HTML:', isFullHtml);
-        // Извлекаем только .cart-table или сообщение "Корзина пуста"
+
         const filteredContent = tempContainer.find('.cart-table').length
             ? tempContainer.find('.cart-table')
             : tempContainer.children().filter(':not(html, head, body, script, style)');
@@ -39,15 +35,15 @@ function updateCheckout(data) {
         if (data.cart_qty > 0 && cartTable.length) {
             console.log('Updating cart table, qty:', data.cart_qty);
             cartTable.replaceWith(filteredContent);
-            // Обновляем поля "Итого" и "На сумму"
+
             $('#cart-qty-total').text(data.cart_qty || 0);
             $('#cart-price-total').text((Number(data.cart_total) || 0).toFixed(2) + ' руб.');
         } else if (cartContainer.length) {
             console.log('Empty cart, replacing cart container');
-            // Очищаем контейнер перед вставкой
+
             cartContainer.empty();
             cartContainer.append(filteredContent);
-            // Гарантированно скрываем форму
+
             const checkoutForm = $('#checkoutForm');
             if (checkoutForm.length) {
                 console.log('Hiding checkoutForm');
@@ -58,9 +54,9 @@ function updateCheckout(data) {
         } else {
             console.error('Cart container not found');
         }
-        // Обновляем иконку корзины
+
         $('.mini-cart-qty').text(data.cart_qty || 0);
-        // Скрываем кнопку корзины, если корзина пуста
+
         if (!data.cart_qty) {
             console.log('Hiding btn-cart');
             $('.btn-cart').addClass('d-none');
@@ -96,7 +92,6 @@ function getCart(action) {
         }
     });
 }
-
 $(function () {
     $('.addtocart').on('submit', function (e) {
         e.preventDefault();
@@ -125,8 +120,6 @@ $(function () {
             }
         });
     });
-
-    // Обработчик для всех кнопок .del-item
     $(document).on('click', '.del-item', function (e) {
         e.preventDefault();
         const action = $(this).data('action');
@@ -141,7 +134,7 @@ $(function () {
             success: function (result) {
                 console.log('del-item success:', result);
                 if (result.success) {
-                    // Если на странице checkout, обновляем таблицу
+                
                     if ($('.cart-table').length) {
                         updateCheckout(result);
                     } else {

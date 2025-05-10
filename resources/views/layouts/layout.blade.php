@@ -44,11 +44,10 @@
         <div class="container p-4">
             <img src="{{ asset('assets/front/img/logo.png') }}" alt="Vr-Shop" class="navbar-logo">
             <section class="mb-4">
-                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-telegram"></i></a>
+                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-youtube"></i></a>
                 <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-google"></i></a>
-                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-instagram"></i></a>
-                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-vk"></i></a>
                 <a class="btn btn-outline btn-floating m-1" href="#!" role="button"><i class="fab fa-github"></i></a>
             </section>
             <section class="mb-4">
@@ -56,23 +55,22 @@
                     <div class="me-4">
                         <h5 class="text-uppercase">Информация</h5>
                         <ul class="list-unstyled">
-                            <li><a class="text-body" href="{{ route('about') }}">О компании</a></li>
-                            <li><a class="text-body" href="{{ route('pages.contact') }}">Контакты</a></li>
+                            <li><a class="text-body" href="{{ route('about') }}" style="text-decoration: none;">О компании</a></li>
+                            <li><a class="text-body" href="{{ route('pages.contact') }}" style="text-decoration: none;">Контакты</a></li>
                         </ul>
                     </div>
                     <div class="me-4">
                         <h5 class="text-uppercase">Категории</h5>
                         <ul class="list-unstyled">
-                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Shlem-Ochki']) }}">Шлем - очки</a></li>
-                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Aksessyari']) }}">Аксессуары</a></li>
-                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Computers']) }}">Компьютеры</a></li>
+                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Shlem-Ochki']) }}" style="text-decoration: none;">Шлем - очки</a></li>
+                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Aksessyari']) }}" style="text-decoration: none;">Аксессуары</a></li>
+                            <li><a class="text-body" href="{{ route('categories.show', ['slug' => 'Computers']) }}" style="text-decoration: none;">Компьютеры</a></li>
                         </ul>
                     </div>
                 </div>
             </section>
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2020 Copyright:
             <a class="text-reset fw-bold" href="{{ route('home') }}">VR-Shop</a>
         </div>
     </footer>

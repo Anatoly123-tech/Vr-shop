@@ -27,10 +27,10 @@
                 <div class="card-body p-4">
                     <h3 class="fw-semibold text-primary">Что мы предлагаем</h3>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item border-0">Шлемы виртуальной реальности</li>
-                        <li class="list-group-item border-0">Аксессуары для VR</li>
-                        <li class="list-group-item border-0">Компьютеры для лучшего использования VR</li>
-                        <li class="list-group-item border-0">Поддержку и сервис для наших клиентов</li>
+                        <li class="list-group-item border-0"> • Шлемы виртуальной реальности</li>
+                        <li class="list-group-item border-0"> • Аксессуары для VR</li>
+                        <li class="list-group-item border-0"> • Компьютеры для лучшего использования VR</li>
+                        <li class="list-group-item border-0"> • Поддержку и сервис для наших клиентов</li>
                     </ul>
                 </div>
             </div>

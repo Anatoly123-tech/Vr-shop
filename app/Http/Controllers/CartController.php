@@ -15,9 +15,7 @@ class CartController extends Controller
 
     protected function renderCartTable()
     {
-        // Рендерим только фрагмент корзины
         $html = view('cart.cart-table')->render();
-        // Логируем HTML для отладки
         Log::debug('renderCartTable output:', ['html' => substr($html, 0, 500)]);
         return $html;
     }
