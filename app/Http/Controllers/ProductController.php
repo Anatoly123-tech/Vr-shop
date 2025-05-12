@@ -13,7 +13,6 @@ class ProductController extends Controller
         $title = 'Home Page';
         $query = Product::with(['category', 'status']);
 
-
         if ($request->filled('title')) {
             $query->where('title', 'like', '%' . $request->input('title') . '%');
         }
@@ -34,9 +33,10 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show($slug){
-        $product = Product::query()->with(['category', 'status'])->where('slug',$slug)->firstOrFail();
-        return view('products.show',compact('product'));
+    public function show($slug)
+    {
+        $product = Product::query()->with(['category', 'status', 'images'])->where('slug', $slug)->firstOrFail();
+        return view('products.show', compact('product'));
     }
 
     public function create()
@@ -46,7 +46,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:products',
@@ -64,12 +63,10 @@ class ProductController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
         Product::create($request->all());
 
         return redirect()->route('admin.products.index')->with('success', 'Товар успешно добавлен!');
     }
-
 
     public function delete(Request $request)
     {
@@ -82,6 +79,4 @@ class ProductController extends Controller
 
         return response()->json(['error' => 'Неверные данные!'], 400);
     }
-
-
 }

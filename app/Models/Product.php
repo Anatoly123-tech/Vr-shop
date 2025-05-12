@@ -32,7 +32,7 @@ class Product extends Model
     }
 
 
-    public function sluggable() : array
+    public function sluggable(): array
     {
         return [
             'slug' => [
@@ -54,7 +54,10 @@ class Product extends Model
     {
         return $this->belongsToMany(User::class, 'favorites', 'product_id', 'user_id')->withTimestamps();
     }
-
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 
     public function getImage()
     {
@@ -63,5 +66,11 @@ class Product extends Model
         } else {
             return asset("assets/front/img/{$this->img}");
         }
+    }
+    public function getImages()
+    {
+        return $this->images()->take(3)->pluck('path')->map(function ($path) {
+            return asset("assets/front/img/{$path}");
+        })->toArray();
     }
 }

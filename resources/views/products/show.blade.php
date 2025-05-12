@@ -26,7 +26,45 @@
         </div>
 
         <div class="col-md-3">
-            <img src="{{ $product->getImage() }}" alt="{{ $product->title }}" class="img-thumbnail">
+            <div class="row">
+               
+                <div class="col-12 mb-3">
+                    <img src="{{ $product->getImage() }}" alt="{{ $product->title }}" class="img-thumbnail thumbnail w-100" data-bs-toggle="modal" data-bs-target="#imageModal" data-image="{{ $product->getImage() }}" style="cursor: pointer;">
+                </div>
+
+                <div class="col-12">
+                    <div class="d-flex flex-wrap">
+                        @php
+                            $images = $product->getImages();
+                            \Log::info('Product Images in show.blade.php:', $images);
+                        @endphp
+                        @if (!empty($images))
+                            @foreach ($images as $image)
+                                <div class="me-2 mb-2">
+                                    <img src="{{ $image }}" alt="{{ $product->title }}" class="img-thumbnail thumbnail" style="width: 80px; height: 80px; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#imageModal" data-image="{{ $image }}">
+                                </div>
+                            @endforeach
+                        @else
+                            <p>Нет дополнительных изображений</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="imageModalLabel">{{ $product->title }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="{{ $product->getImage() }}" alt="{{ $product->title }}" class="img-fluid" id="modalImage">
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="col-sm-8">
@@ -79,7 +117,7 @@
                 <div class="text-center mb-3">
                     <ul class="nav nav-tabs justify-content-center" id="productTab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
+                            <a class="nav-link active" id="description-tab" data-bs-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">
                                 Описание
                             </a>
                         </li>
@@ -95,6 +133,38 @@
                 </div>
             </div>
         </div>
+    @endsection
+
+    @section('scripts')
+        <script>
+            console.log('Script loaded');
+
+            document.addEventListener('DOMContentLoaded', function () {
+                console.log('DOMContentLoaded fired');
+
+                const modalImage = document.getElementById('modalImage');
+                const thumbnails = document.querySelectorAll('.thumbnail');
+
+                console.log('Found thumbnails:', thumbnails.length);
+
+                if (!modalImage) {
+                    console.error('Modal image element not found');
+                    return;
+                }
+
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.addEventListener('click', function () {
+                        const imageUrl = this.getAttribute('data-image');
+                        console.log('Clicked thumbnail with URL:', imageUrl);
+                        if (imageUrl) {
+                            modalImage.src = imageUrl;
+                        } else {
+                            console.error('No data-image attribute found on thumbnail');
+                        }
+                    });
+                });
+            });
+        </script>
     @endsection
 </body>
 </html>
