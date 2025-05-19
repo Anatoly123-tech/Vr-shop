@@ -98,9 +98,11 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
-
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-            <a href="{{ route('admin.table.index') }}" class="btn btn-secondary">Отмена</a>
+            <div class="form-group">
+                
+                <button type="submit" class="btn btn-success">Сохранить</button>
+                <a href="{{ route('admin.table.index') }}" class="btn btn-secondary">Отмена</a>
+            </div>
         </form>
     </div>
 @endsection

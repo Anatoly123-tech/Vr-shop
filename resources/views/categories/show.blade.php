@@ -76,8 +76,7 @@
                                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                                     <div class="input-group-append">
                                         <button class="btn btn-info cart-addtocart" type="submit">
-                                            <i class="fas fa-cart-arrow-down"></i> В корзину
-                                        </button>
+                                            <i class="fas fa-cart-arrow-down"></i> В корзину                                     </button>
                                     </div>
                                 </div>
                             </form>
