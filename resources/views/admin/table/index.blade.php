@@ -2,11 +2,31 @@
 
 @section('content')
 <h1>Таблица товаров</h1>
-<div class="mb-3">
-    <a href="{{ route('admin.table.create') }}" class="btn btn-success">Добавить товар</a>
-    <button class="btn btn-danger" id="deleteSelected">Удалить выбранные</button>
+<div class="mb-3 d-flex justify-content-between align-items-center">
+    <div>
+        <a href="{{ route('admin.table.create') }}" class="btn btn-success">Добавить товар</a>
+        <button class="btn btn-danger" id="deleteSelected">Удалить выбранные</button>
+    </div>
+    <form method="GET" action="{{ route('admin.table.index') }}" id="filter-form" class="d-flex align-items-center">
+        <div class="input-group me-2" style="width: 250px;">
+            <input type="text" name="title" id="title" class="form-control" placeholder="Поиск по названию" value="{{ $filters['title'] ?? '' }}">
+            <button type="submit" class="btn btn-secondary"><i class="bi bi-search"></i></button>
+        </div>
+        <select name="sort" id="sort" class="form-control me-2" style="width: 200px;">
+            <option value="created_at_desc" {{ ($filters['sort'] ?? 'created_at_desc') == 'created_at_desc' ? 'selected' : '' }}>По умолчанию</option>
+            <option value="title_asc" {{ ($filters['sort'] ?? '') == 'title_asc' ? 'selected' : '' }}>Название (А-Я)</option>
+            <option value="title_desc" {{ ($filters['sort'] ?? '') == 'title_desc' ? 'selected' : '' }}>Название (Я-А)</option>
+            <option value="price_asc" {{ ($filters['sort'] ?? '') == 'price_asc' ? 'selected' : '' }}>Цена (по возрастанию)</option>
+            <option value="price_desc" {{ ($filters['sort'] ?? '') == 'price_desc' ? 'selected' : '' }}>Цена (по убыванию)</option>
+            <option value="category_asc" {{ ($filters['sort'] ?? '') == 'category_asc' ? 'selected' : '' }}>Категория (А-Я)</option>
+            <option value="category_desc" {{ ($filters['sort'] ?? '') == 'category_desc' ? 'selected' : '' }}>Категория (Я-А)</option>
+            <option value="status_asc" {{ ($filters['sort'] ?? '') == 'status_asc' ? 'selected' : '' }}>Статус (А-Я)</option>
+            <option value="status_desc" {{ ($filters['sort'] ?? '') == 'status_desc' ? 'selected' : '' }}>Статус (Я-А)</option>
+        </select>
+        <button type="submit" class="btn btn-success me-2">Применить</button>
+        <a href="{{ route('admin.table.index') }}" class="btn btn-secondary">Сбросить</a>
+    </form>
 </div>
-
 <form action="{{ route('admin.table.delete') }}" method="POST" id="deleteForm" style="display: none;">
     @csrf
     <input type="hidden" name="ids" id="deleteIds">
@@ -62,7 +82,7 @@
                     </td>
                     <td>
                         <select class="form-control" name="status_id" required>
-                            <option value="">Выберите статус</option>
+                            <option value="status_id">Выберите статус</option>
                             @foreach($statuses as $status)
                                 <option value="{{ $status->id }}" {{ old('status_id', $product->status_id) == $status->id ? 'selected' : '' }}>
                                     {{ $status->title }}

@@ -13,12 +13,53 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::all();
         $statuses = Status::all();
-        $products = Product::with('images')->orderBy('created_at', 'desc')->paginate(perPage: 12);
-        return view('admin.table.index', compact('products', 'categories', 'statuses'));
+        $query = Product::with('images');
+
+        
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->input('title') . '%');
+        }
+
+        
+        $sort = $request->query('sort', 'created_at_desc');
+        switch ($sort) {
+            case 'title_asc':
+                $query->orderBy('title', 'asc');
+                break;
+            case 'title_desc':
+                $query->orderBy('title', 'desc');
+                break;
+            case 'price_asc':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_desc':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'category_asc':
+                $query->orderBy('category_id', 'asc');
+                break;
+            case 'category_desc':
+                $query->orderBy('category_id', 'desc');
+                break;
+            case 'status_asc':
+                $query->orderBy('status_id', 'asc');
+                break;
+            case 'status_desc':
+                $query->orderBy('status_id', 'desc');
+                break;
+            default:
+                $query->orderBy('created_at', 'desc');
+        }
+
+        $products = $query->paginate(12);
+
+        return view('admin.table.index', compact('products', 'categories', 'statuses') + [
+            'filters' => $request->only(['title', 'sort'])
+        ]);
     }
 
     public function create()

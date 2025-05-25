@@ -31,6 +31,18 @@
                         <i class="fas fa-search position-absolute filter-icon"></i>
                     </div>
                     <div class="form-group mb-3 position-relative">
+                            <label for="status_id" class="form-label">Статус</label>
+                            <select name="status_id" id="status_id" class="form-control">
+                                <option value="" {{ !isset($filters['status_id']) ? 'selected' : '' }}>Все статусы</option>
+                                @foreach ($statuses as $status)
+                                    <option value="{{ $status->id }}"
+                                        {{ ($filters['status_id'] ?? '') == $status->id ? 'selected' : '' }}>
+                                        {{ $status->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    <div class="form-group mb-3 position-relative">
                         <label for="min_price" class="form-label">Мин. цена</label>
                         <input type="number" name="min_price" id="min_price" class="form-control ps-5"
                                value="{{ $filters['min_price'] ?? '' }}" placeholder="0" min="0">
@@ -39,9 +51,27 @@
                     <div class="form-group mb-3 position-relative">
                         <label for="max_price" class="form-label">Макс. цена</label>
                         <input type="number" name="max_price" id="max_price" class="form-control ps-5"
-                               value="{{ $filters['max_price'] ?? '' }}" placeholder="100000" min="0">
+                               value="{{ $filters['max_price'] ?? '' }}" placeholder="400000" min="0">
                         <i class="fas fa-ruble-sign position-absolute filter-icon"></i>
                     </div>
+                    <div class="form-group mb-3 position-relative">
+                            <label for="sort" class="form-label">Сортировка</label>
+                            <select name="sort" id="sort" class="form-control">
+                                <option value="id_desc"
+                                    {{ ($filters['sort'] ?? 'id_desc') == 'id_desc' ? 'selected' : '' }}>По умолчанию
+                                </option>
+                                <option value="title_asc" {{ ($filters['sort'] ?? '') == 'title_asc' ? 'selected' : '' }}>
+                                    Название (А-Я)</option>
+                                <option value="title_desc"
+                                    {{ ($filters['sort'] ?? '') == 'title_desc' ? 'selected' : '' }}>Название (Я-А)
+                                </option>
+                                <option value="price_asc" {{ ($filters['sort'] ?? '') == 'price_asc' ? 'selected' : '' }}>
+                                    Цена (по возрастанию)</option>
+                                <option value="price_desc"
+                                    {{ ($filters['sort'] ?? '') == 'price_desc' ? 'selected' : '' }}>Цена (по убыванию)
+                                </option>
+                            </select>
+                        </div>
                     <button type="submit" class="btn btn-success">Применить</button>
                     <a href="{{ route('categories.show', ['slug' => $category->slug]) }}" class="btn btn-secondary">Сбросить</a>
                 </form>
