@@ -9,7 +9,7 @@
     </div>
     <form method="GET" action="{{ route('admin.table.index') }}" id="filter-form" class="d-flex align-items-center">
         <div class="input-group me-2" style="width: 250px;">
-            <input type="text" name="title" id="title" class="form-control" placeholder="Поиск по названию" value="{{ $filters['title'] ?? '' }}">
+            <input type="text" name="title" id="title" class="form-control" placeholder="Поиск товара" value="{{ $filters['title'] ?? '' }}">
             <button type="submit" class="btn btn-secondary"><i class="bi bi-search"></i></button>
         </div>
         <select name="sort" id="sort" class="form-control me-2" style="width: 200px;">
